@@ -1,0 +1,101 @@
+-- Database creation
+CREATE DATABASE IF NOT EXISTS sms;
+USE sms;
+
+-- Admin table
+CREATE TABLE admin (
+    ad_name VARCHAR(30) NOT NULL,
+    ad_emailid VARCHAR(50) PRIMARY KEY,
+    ad_gender VARCHAR(10),
+    ad_contact BIGINT(15),
+    ad_bdate DATE,
+    ad_city VARCHAR(30),
+    ad_address TEXT,
+    ad_code VARCHAR(10),
+    ad_password VARCHAR(255) NOT NULL
+);
+
+-- Faculty table
+CREATE TABLE faculty (
+    fa_name VARCHAR(50) NOT NULL,
+    fa_emailid VARCHAR(50) PRIMARY KEY,
+    fa_gender VARCHAR(10),
+    fa_contact BIGINT(15),
+    fa_bdate DATE,
+    fa_city VARCHAR(30),
+    fa_address TEXT,
+    fa_code VARCHAR(10),
+    fa_password VARCHAR(255) NOT NULL
+);
+
+-- Student table
+CREATE TABLE student (
+    st_name VARCHAR(50) NOT NULL,
+    st_emailid VARCHAR(50) PRIMARY KEY,
+    st_gender VARCHAR(10),
+    st_contact BIGINT(15),
+    st_bdate DATE,
+    st_city VARCHAR(30),
+    st_address TEXT,
+    st_sem VARCHAR(10),
+    st_password VARCHAR(255) NOT NULL
+);
+
+-- Fee_payment table
+
+-- Course table
+CREATE TABLE course (
+    Subject_code VARCHAR(10) NOT NULL,
+    sem INT(5) NOT NULL,
+    Name VARCHAR(50) NOT NULL,
+    Url VARCHAR(255) NOT NULL,
+    PRIMARY KEY (Subject_code, sem)
+);
+
+-- Attendance table
+CREATE TABLE attendance (
+    prn_no INT NOT NULL PRIMARY KEY,
+    roll_no INT NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    subject VARCHAR(50) NOT NULL,
+    date DATE NOT NULL,
+    time TIME NOT NULL,
+    attendance_type VARCHAR(20) NOT NULL,
+    email_id VARCHAR(50) NOT NULL,
+    FOREIGN KEY (email_id) REFERENCES student(st_emailid) ON DELETE CASCADE
+);
+
+CREATE TABLE timetable (
+    subject_name VARCHAR(50) NOT NULL,
+    date VARCHAR(15) NOT NULL,
+    time VARCHAR(15) NOT NULL,
+    day VARCHAR(25) NOT NULL
+);
+
+
+
+
+CREATE TABLE result (
+    prn_no INT(50) NOT NULL,
+    name VARCHAR(50) NOT NULL,
+    exam_no INT(30) NOT NULL PRIMARY KEY,
+    result INT(10) NOT NULL,
+    exam_name VARCHAR(50) NOT NULL,
+    email_id VARCHAR(50) NOT NULL,
+    FOREIGN KEY (email_id) REFERENCES student(st_emailid) ON DELETE CASCADE
+);
+
+
+
+
+
+
+CREATE TABLE fee_payments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    prn_no VARCHAR(50) NOT NULL,
+    student_name VARCHAR(100) NOT NULL,
+    amount INT NOT NULL,
+    payment_method VARCHAR(50) NOT NULL,
+    status VARCHAR(20) NOT NULL CHECK (status IN ('Paid', 'Pending')),
+    payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
